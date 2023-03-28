@@ -24,7 +24,7 @@ class SAFParser:
             self.h = np.histogram([], bins=np.linspace(self.minvals[i], self.maxvals[i], self.nboxes[i]+1))
             self.counts, self.bins = self.h
             self.counts.dtype = float
-            for j in range(10):
+            for j in range(self.nboxes[i]):
                 self.counts[j] = self.datas[i][j+1]
             plt.hist(self.bins[:-1], self.bins, weights=self.counts)
             plt.title(self.titles[i])
