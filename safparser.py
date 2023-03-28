@@ -6,6 +6,16 @@ import numpy as np
 class SAFParser:
     def __init__(self, safpath):
         self.safpath = safpath
+        try:
+            self.tree = xml.etree.ElementTree.parse(self.safpath)
+        except ParseError:
+            self.AddRootSAF(self.safpath)
+            self.tree = xml.etree.ElementTree.parse(self.safpath)
+       
+    #used for dealing with the ParseError
+    def AddRootSAF(self, FileName):
+        with open(FileName, 'r') as original: data = original.read()
+        with open(FileName, 'w') as modified: modified.write("<SAF>\n" + data+"\n</SAF>")
        
     #plots the histograms loaded in
     def plot_saf(self):
@@ -25,7 +35,6 @@ class SAFParser:
     
     #loads all relevant data
     def load_saf(self):
-        self.tree = xml.etree.ElementTree.parse(self.safpath)
         self.root = self.tree.getroot()
         self.titles = []
         self.nboxes = []
