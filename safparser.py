@@ -18,10 +18,12 @@ class SAFParser:
         with open(FileName, 'w') as modified: modified.write("<SAF>\n" + data+"\n</SAF>")
        
     #plots the histograms loaded in
-    def plot_saf(self):
+    def plot_saf(self, normalized = False):
         _ = self.load_saf()
         for i in range(len(self.titles)):
             self.h = np.histogram([], bins=np.linspace(self.minvals[i], self.maxvals[i], self.nboxes[i]+1))
+            if normalized:
+                self.h[0] /= sum(self.h[0])
             self.counts, self.bins = self.h
             self.counts.dtype = float
             for j in range(self.nboxes[i]):
